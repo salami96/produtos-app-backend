@@ -1,7 +1,7 @@
 {
-  "name": "node-typescript-starter",
+  "name": "products-backend",
   "version": "1.0.0",
-  "description": "Template de configurações para utilizar o NodeJS em conjunto com o TypeScript",
+  "description": "BackEnd para meu projeto pessoal de cardápio / catálogo digital",
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/index.ts",
