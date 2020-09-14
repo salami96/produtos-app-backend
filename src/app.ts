@@ -5,7 +5,7 @@ import { router } from './routes';
 
 export class App {
     private express: express.Application;
-    private port = 9000;
+    private port = process.env.PORT || 9000;
 
     constructor() {
         this.express = express();
@@ -48,7 +48,7 @@ export class App {
 
     private database(): void {
         mongoose.connect(
-            'mongodb+srv://salami1996:salami1996@cluster0-utam0.gcp.mongodb.net/produtos-app?retryWrites=true&w=majority',
+            process.env.MONGOURL,
             {
                 useUnifiedTopology: true,
                 useNewUrlParser: true
