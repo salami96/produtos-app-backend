@@ -1,1 +1,3 @@
-console.log('arquivo rodando1');
+import { App } from "./app";
+
+new App().getApp();
