@@ -42,7 +42,7 @@ export class App {
                 next(error.message);
             }
         });
-        this.express.use('', router);
+        this.express.use('/', router);
         this.express.listen(port, () => {
             console.log('Server running in port: ' + port);
         })
