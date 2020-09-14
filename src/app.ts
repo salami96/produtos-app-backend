@@ -2,10 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { router } from './routes';
+import { mongoUrl, port, secret } from '../enviroment';
 
 export class App {
     private express: express.Application;
-    private port = process.env.PORT || 9000;
 
     constructor() {
         this.express = express();
@@ -28,12 +28,14 @@ export class App {
         this.express.use(async (req, res, next) => {
             try {
                 if (!req.headers.authorization) {
-                    throw new Error('Authorization header is required');
+                    res.statusCode = 403;
+                    return res.send('Authorization header is required');
                 } else {
-                    if (req.headers.authorization === process.env.SECRET) {
+                    if (req.headers.authorization === secret) {
                         next();
                     } else {
-                        throw new Error('Authorization key is not valid');
+                        res.statusCode = 403;
+                        return res.send('Authorization key is not valid');
                     }
                 }
             } catch (error) {
@@ -41,14 +43,14 @@ export class App {
             }
         });
         this.express.use('', router);
-        this.express.listen(this.port, () => {
-            console.log('Server running in port: ' + this.port);
+        this.express.listen(port, () => {
+            console.log('Server running in port: ' + port);
         })
     }
 
     private database(): void {
         mongoose.connect(
-            process.env.MONGOURL,
+            mongoUrl,
             {
                 useUnifiedTopology: true,
                 useNewUrlParser: true
