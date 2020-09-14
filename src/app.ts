@@ -29,7 +29,7 @@ export class App {
             try {
                 if (!req.headers.authorization) {
                     res.statusCode = 403;
-                    return res.send('Authorization header is required');
+                    return res.send('Authorization key is required');
                 } else {
                     if (req.headers.authorization === secret) {
                         next();
