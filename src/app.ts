@@ -2,12 +2,29 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { router } from './routes';
-import { mongoUrl, port, secret } from '../enviroment';
+
 
 export class App {
     private express: express.Application;
+    secret: string;
+    mongoUrl: string;
+    port: number | string;
 
     constructor() {
+        if (!process.env.PORT) {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            const env = require('../enviroment');
+            this.secret = env.secret;
+            this.port = env.port;
+            this.mongoUrl = env.mongoUrl;
+
+        } else {
+            this.secret = process.env.SECRET;
+            this.mongoUrl = process.env.MONGOURL;
+            this.port = process.env.PORT;
+        }
+
+
         this.express = express();
         this.listen();
         this.middlewares();
@@ -31,7 +48,7 @@ export class App {
                     res.statusCode = 403;
                     return res.send('Authorization key is required');
                 } else {
-                    if (req.headers.authorization === secret) {
+                    if (req.headers.authorization === this.secret) {
                         next();
                     } else {
                         res.statusCode = 403;
@@ -43,14 +60,14 @@ export class App {
             }
         });
         this.express.use('/', router);
-        this.express.listen(port, () => {
-            console.log('Server running in port: ' + port);
+        this.express.listen(this.port, () => {
+            console.log('Server running in port: ' + this.port);
         })
     }
 
     private database(): void {
         mongoose.connect(
-            mongoUrl,
+            this.mongoUrl,
             {
                 useUnifiedTopology: true,
                 useNewUrlParser: true
