@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/index.ts",
-    "build": "sucrase ./src -d ./dist --transforms typescript,imports"
+    "build": "sucrase ./src -d ./dist --transforms typescript,imports",
+    "serve": "node dist/index.js",
+    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "",
