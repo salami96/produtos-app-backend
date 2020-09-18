@@ -32,7 +32,7 @@ export class UserController {
     }
     static async getUser(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const uid: string = req.body;
+            const { uid } = req.params;
             const user = await UserRepository.getUser(uid);
             if (user){
                 return res.json(user)

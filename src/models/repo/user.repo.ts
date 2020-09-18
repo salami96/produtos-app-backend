@@ -6,10 +6,9 @@ export class UserRepository {
         const users = await UserModel.find().exec();
         const found = users.find(user => user.uid === u.uid);
         if (found) {
-            return found.save();
+            return found;
         } else {
-            const user = await UserModel.create(u);
-            return user.save();
+            return await UserModel.create(u);
         }
     }
     static async updateUser(u: User): Promise<User> {

@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { router } from './routes';
+import * as bodyParser from 'body-parser';
 
 
 export class App {
@@ -26,6 +27,8 @@ export class App {
 
 
         this.express = express();
+        this.express.use(cors());
+        this.express.use(bodyParser.json());
         this.listen();
         this.middlewares();
         this.database();
@@ -36,12 +39,6 @@ export class App {
     }
 
     private middlewares(): void {
-        this.express.use(express.json());
-        // this.express.use(cors());
-        this.express.use((req, res, next) => {
-            res.header('Access-Control-Allow-Origin', '*');
-            next();
-        });
         this.express.use(this.forceSSL);
     }
 

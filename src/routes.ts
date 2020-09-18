@@ -5,8 +5,8 @@ const router = Router();
 const error = Router();
 
 router.get('/', UserController.get);
-router.post('/user', UserController.getUser);
-router.post('/new-user', UserController.saveNewUser);
+router.get('/user/:uid', UserController.getUser);
+router.post('/user', UserController.saveNewUser);
 router.put('/user', UserController.updateUser);
 
 export { router, error };
