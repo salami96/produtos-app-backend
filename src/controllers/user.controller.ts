@@ -50,11 +50,4 @@ export class UserController {
             next(erro);
         }
     }
-    static async getError(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        try {
-            return res.send('NOT OK');
-        } catch (erro) {
-            next(erro);
-        }
-    }
 }

@@ -9,6 +9,4 @@ router.post('/user', UserController.getUser);
 router.post('/new-user', UserController.saveNewUser);
 router.put('/user', UserController.updateUser);
 
-error.get('/', UserController.getError);
-
 export { router, error };
