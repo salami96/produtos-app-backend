@@ -45,6 +45,7 @@ export class App {
     private listen(): void {
         this.express.use(async (req, res, next) => {
             try {
+                console.log(req.body);
                 if (!req.headers.authorization) {
                     res.statusCode = 403;
                     return res.send('Authorization key is required');
@@ -71,7 +72,8 @@ export class App {
             this.mongoUrl,
             {
                 useUnifiedTopology: true,
-                useNewUrlParser: true
+                useNewUrlParser: true,
+                useFindAndModify: false
             }
         );
     }
