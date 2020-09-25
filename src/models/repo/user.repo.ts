@@ -1,4 +1,4 @@
-import { User } from "../entities";
+import { Address, User } from "../entities";
 import { UserModel } from "../schemas";
 
 export class UserRepository {
@@ -14,6 +14,35 @@ export class UserRepository {
     static async updateUser(u: User): Promise<User> {
         const resp = await UserModel.findOneAndUpdate({ uid: u.uid }, u).exec();
         return resp;
+    }
+    static async addAddress2User(a: Address, uid: string): Promise<User> {
+        const user = await UserModel.findOne({ uid: uid }).exec();
+        if (user) {
+            const found = user.address.find(ad => ad.name === a.name);
+            if (found) {
+                user.address.splice(user.address.lastIndexOf(found),1);
+            }
+            user.address.push(a);
+            const resp = await this.updateUser(user);
+            if (resp) {
+                return await this.getUser(user.uid);
+            }
+        }
+        return null;
+    }
+    static async rmAddress(name: string, uid: string): Promise<User> {
+        const user = await UserModel.findOne({ uid: uid }).exec();
+        if (user) {
+            const found = user.address.find(ad => ad.name === name);
+            if (found) {
+                user.address.splice(user.address.lastIndexOf(found),1);
+            }
+            const resp = await this.updateUser(user);
+            if (resp) {
+                return await this.getUser(user.uid);
+            }
+        }
+        return null;
     }
     static async getUser(uid: string): Promise<User> {
         const user = await UserModel.findOne({ uid: uid }).exec();

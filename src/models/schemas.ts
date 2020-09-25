@@ -16,6 +16,8 @@ export const UserModel = model<UserDocument>('User', new Schema({
         city: { type: String },
         state: { type: String },
         zipCode: { type: String },
+        reference: { type: String },
+        complement: { type: String },
     }],
     avatar: { type: String},
 }), 'users');

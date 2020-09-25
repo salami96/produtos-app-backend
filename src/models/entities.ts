@@ -75,4 +75,6 @@ export interface Address {
     city: string;
     state: string;
     zipCode: string;
+    reference: string;
+    complement: string;
 }

@@ -45,7 +45,7 @@ export class App {
     private listen(): void {
         this.express.use(async (req, res, next) => {
             try {
-                console.log(req.body);
+                console.log(req.params);
                 if (!req.headers.authorization) {
                     res.statusCode = 403;
                     return res.send('Authorization key is required');
