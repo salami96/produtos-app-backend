@@ -1,4 +1,5 @@
 export interface Store {
+    code: string;
     title: string;
     logo: string;
     favicon: string;
@@ -8,12 +9,14 @@ export interface Store {
     fb: string;
     insta: string;
     email: string;
-    address: string;
+    address: Address[];
     map: string;
     directions: string;
     payments: Payment[];
     categories: Category[];
-    ship: number;
+    ship: number[];
+    ownerUid: string;
+    color: string;
 }
 export interface Payment {
     name: string;
