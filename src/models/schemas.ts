@@ -1,9 +1,8 @@
 import { Document, model, Schema } from "mongoose";
-import { Category, Payment, Store, User } from "./entities";
+import { Category, Payment, Store, User, Product } from "./entities";
 
 
 interface UserDocument extends User, Document {}
-
 export const UserModel = model<UserDocument>('User', new Schema({
     uid: { type: String },
     name: { type: String },
@@ -25,7 +24,6 @@ export const UserModel = model<UserDocument>('User', new Schema({
 
 
 interface StoreDocument extends Store, Document {}
-
 export const StoreModel = model<StoreDocument>('Store', new Schema({
     code: { type: String },
     title: { type: String },
@@ -50,13 +48,9 @@ export const StoreModel = model<StoreDocument>('Store', new Schema({
     }],
     map: { type: String },
     directions: { type: String },
-    payments: [{
-        id: { type: Schema.Types.ObjectId, ref: 'payments' }
-    }],
-    categories: [{
-        id: { type: Schema.Types.ObjectId, ref: 'categories' }
-    }],
-    ship: [{ 
+    payments: [{ type: Schema.Types.ObjectId, ref: 'Payment' }],
+    categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
+    ship: [{
         zipCode: { type: String },
         value: { type: Number }
     }],
@@ -64,18 +58,34 @@ export const StoreModel = model<StoreDocument>('Store', new Schema({
     color: { type: String },
 }), 'stores');
 
-
 interface PaymentDocument extends Payment, Document {}
-
 export const PaymentModel = model<PaymentDocument>('Payment', new Schema({
     name: { type: String },
     icon: { type: String },
 }), 'payments');
 
-
 interface CategoryDocument extends Category, Document {}
-
 export const CategoryModel = model<CategoryDocument>('Category', new Schema({
     name: { type: String },
     icon: { type: String },
 }), 'categories');
+
+
+interface ProductDocument extends Product, Document {}
+export const ProductModel = model<ProductDocument>('Product', new Schema({
+    cod: { type: String },
+    store: { type: String },
+    category: { type: String },
+    name: { type: String },
+    imgs: [{ type: String }],
+    sizes: [{
+        name: { type: String },
+        value: { type: Number }
+    }],
+    unity: { type: String },
+    extras: [{
+        name: { type: String },
+        value: { type: Number }
+    }],
+    optional: [{ type: String }]
+}), 'products');

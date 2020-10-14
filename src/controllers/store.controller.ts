@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { Address, Store } from '../models/entities';
+import { Address, Category, Store } from '../models/entities';
 import { StoreRepository } from '../models/repo/store.repo';
-
 
 export class StoreController {
     static async saveNewStore(req: Request, res: Response, next: NextFunction): Promise<Response> {
@@ -10,6 +9,32 @@ export class StoreController {
             const store = await StoreRepository.saveStore(s);
             if (store){
                 return res.json(store);
+            } else {
+                return res.json(null);
+            }
+        } catch (erro) {
+            next(erro);
+        }
+    }
+    static async saveNewCategory(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        try {
+            const c: Category = req.body;
+            const categories = await StoreRepository.addCategory(c);
+            if (categories){
+                return res.json(categories);
+            } else {
+                return res.json(null);
+            }
+        } catch (erro) {
+            next(erro);
+        }
+    }
+    static async addData2Store(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        try {
+            const { store, uid, type, name } = req.body;
+            const result = await StoreRepository.addData2Store(store, uid, name, type);
+            if (result){
+                return res.json(result);
             } else {
                 return res.json(null);
             }
@@ -60,9 +85,11 @@ export class StoreController {
     }
     static async getStore(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
+            // createPgto();
             const { id } = req.params;
             const store = await StoreRepository.getStore(id);
             if (store){
+                console.log(store.title);
                 return res.json(store)
             } else {
                 return res.json(null);
@@ -71,4 +98,49 @@ export class StoreController {
             next(erro);
         }
     }
+    static async getStores(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        try {
+            const stores = await StoreRepository.getStores();
+            if (stores){
+                return res.json(stores)
+            } else {
+                return res.json(null);
+            }
+        } catch (erro) {
+            next(erro);
+        }
+    }
+    static async getCategories(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        try {
+            const categories = await StoreRepository.getCategories();
+            if (categories){
+                return res.json(categories)
+            } else {
+                return res.json(null);
+            }
+        } catch (erro) {
+            next(erro);
+        }
+    }
+}
+import { PaymentModel } from '../models/schemas'
+async function createPgto() {
+
+    // PaymentModel.create({
+    //     name: 'Dinheiro',
+    //     icon: '<i-dollar-sign></i-dollar-sign>'
+    // });
+    // PaymentModel.create({
+    //     name: 'Cartão',
+    //     icon: '<i-card></i-card>'
+    // });
+    // PaymentModel.create({
+    //     name: 'Tranferência',
+    //     icon: '<i-share></i-share>'
+    // });
+    // await StoreRepository.addData2Store('copac', 'tABAB0RJu2SId2omqxylRqr6BcQ2', 'Dinheiro', 'payment');
+    // await StoreRepository.addData2Store('copac', 'tABAB0RJu2SId2omqxylRqr6BcQ2', 'Cartão', 'payment');
+    await StoreRepository.addData2Store('exemplo', '', 'Dinheiro', 'payment');
+    await StoreRepository.addData2Store('exemplo', '', 'Cartão', 'payment');
+    await StoreRepository.addData2Store('exemplo', '', 'Tranferência', 'payment');
 }
