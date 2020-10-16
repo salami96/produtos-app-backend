@@ -44,7 +44,15 @@ export interface Product {
     optional: string[];
 }
 export interface Order {
+    cod: number;
     products: OrderItem[];
+    client: string;
+    store: string;
+    date: Date;
+    payment: Payment;
+    address: Address;
+    status: number;
+    total: number;
 }
 export interface OrderItem {
     cod: string;
