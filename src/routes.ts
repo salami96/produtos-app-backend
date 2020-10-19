@@ -33,12 +33,10 @@ router.put('/product', ProductController.updateProduct);
 router.delete('/product/:store/:uid/:cod', ProductController.deleteProduct);
 
 // Order Routes
-router.get('/order/:store/:status', OrderController.getOrders);
-router.get('/order/:store/:client', OrderController.getOrdersByClient);
+router.get('/orders/:store/:status', OrderController.getOrders);
+router.get('/orders-by-client/:store/:client', OrderController.getOrdersByClient);
 router.get('/order/:cod', OrderController.getOrder);
 router.post('/order', OrderController.saveNewOrder);
 router.put('/order', OrderController.updateOrder);
-
-
 
 export { router };
