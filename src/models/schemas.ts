@@ -119,6 +119,7 @@ export const OrderModel = model<OrderDocument>('Order', new Schema({
     store: { type: Schema.Types.ObjectId, ref: 'Store' },
     date: { type: Date },
     payment: { type: Schema.Types.ObjectId, ref: 'Payment' },
+    pickup: { type: Boolean },
     address: {
         name: { type: String },
         street: { type: String },

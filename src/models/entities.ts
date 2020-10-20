@@ -50,6 +50,7 @@ export interface Order {
     store: string;
     date: Date;
     payment: Payment;
+    pickup: boolean;
     address: Address;
     status: number;
     total: number;
