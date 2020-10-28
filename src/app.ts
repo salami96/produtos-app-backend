@@ -27,7 +27,8 @@ export class App {
 
         this.express = express();
         this.express.use(cors());
-        this.express.use(bodyParser.json());
+        this.express.use(express.urlencoded({ extended: true }));
+        this.express.use(express.json());
         this.listen();
         this.middlewares();
         this.database();
