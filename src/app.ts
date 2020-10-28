@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { router } from './routes';
-import * as bodyParser from 'body-parser';
 
 
 export class App {

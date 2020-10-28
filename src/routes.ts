@@ -5,7 +5,7 @@ import { StoreController } from "./controllers/store.controller";
 import { UserController } from "./controllers/user.controller";
 import multer from 'multer';
 
-const upload = multer();
+const upload = multer({ storage: multer.memoryStorage() });
 
 const router = Router();
 
