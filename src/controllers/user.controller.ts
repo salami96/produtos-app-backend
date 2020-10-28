@@ -48,7 +48,7 @@ export class UserController {
                     return res.json(null);
                 }
             }, { public_id: 'avatar-' + req.body.uid } );
-            fs.createReadStream((req as any).file.path, {encoding: 'binary'}).on('data', stream.write).on('end', stream.end);
+            fs.createReadStream(req.file.buffer, {encoding: 'binary'}).on('data', stream.write).on('end', stream.end);
         } catch (erro) {
             next(erro);
         }
