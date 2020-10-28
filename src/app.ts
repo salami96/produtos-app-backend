@@ -18,7 +18,6 @@ export class App {
             this.secret = env.secret;
             this.port = env.port;
             this.mongoUrl = env.mongoUrl;
-
         } else {
             this.secret = process.env.SECRET;
             this.mongoUrl = process.env.MONGOURL;

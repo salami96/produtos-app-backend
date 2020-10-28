@@ -39,6 +39,7 @@ export class UserController {
     static async updateUserPhoto(req: Request, res: Response, next: NextFunction) {
         try {
             const u: User = req.body;
+            console.log(u);
             const stream = cloudinary.uploader.upload_stream(async function(result) {
                 u.avatar = result.secure_url;
                 const user = await UserRepository.updateUser(u);
