@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { Address, User } from '../models/entities';
 import { UserRepository } from '../models/repo/user.repo';
 
+var fs = require('fs');
+var cloudinary = require('cloudinary');
 
 export class UserController {
     static async saveNewUser(req: Request, res: Response, next: NextFunction): Promise<Response> {
@@ -26,6 +28,23 @@ export class UserController {
             } else {
                 return res.json(null);
             }
+        } catch (erro) {
+            next(erro);
+        }
+    }
+    static async updateUserPhoto(req: Request, res: Response, next: NextFunction) {
+        try {
+            let u: User = req.body;
+            let stream = cloudinary.uploader.upload_stream(async function(result) {
+                u.avatar = result.secure_url;
+                const user = await UserRepository.updateUser(u);
+                if (user){
+                    return res.json(user);
+                } else {
+                    return res.json(null);
+                }
+            }, { public_id: 'user-' + req.body.uid } );
+            fs.createReadStream((req as any).files.image.path, {encoding: 'binary'}).on('data', stream.write).on('end', stream.end);
         } catch (erro) {
             next(erro);
         }
