@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 import { Address, User } from '../models/entities';
 import { UserRepository } from '../models/repo/user.repo';
 
-const fs = require('fs');
+import fs from 'fs';
 const cloudinary = require('cloudinary');
 
 export class UserController {
@@ -50,7 +50,8 @@ export class UserController {
                     return res.json(null);
                 }
             }, { public_id: 'avatar-' + req.body.uid } );
-            fs.createReadStream(req.file.path, { encoding: 'binary' }).on('data', stream.write).on('end', stream.end);
+            fs.createReadStream(req.file.path).pipe(stream);
+            // fs.createReadStream(req.file.path).on('data', stream.write).on('end', stream.end);
         } catch (erro) {
             next(erro);
         }
