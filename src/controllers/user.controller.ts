@@ -39,6 +39,8 @@ export class UserController {
     static async updateUserPhoto(req: Request, res: Response, next: NextFunction) {
         try {
             const u: User = req.body;
+            console.log(u);
+            console.log(req.file);
             const stream = cloudinary.uploader.upload_stream(async function(result) {
                 u.avatar = result.secure_url;
                 const user = await UserRepository.updateUser(u);
@@ -48,7 +50,7 @@ export class UserController {
                     return res.json(null);
                 }
             }, { public_id: 'avatar-' + req.body.uid } );
-            fs.createReadStream(req.file.buffer, {encoding: 'binary'}).on('data', stream.write).on('end', stream.end);
+            fs.createReadStream(req.file.path, { encoding: 'binary' }).on('data', stream.write).on('end', stream.end);
         } catch (erro) {
             next(erro);
         }
