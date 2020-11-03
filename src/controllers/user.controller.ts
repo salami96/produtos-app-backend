@@ -45,6 +45,7 @@ export class UserController {
                 u.avatar = result.secure_url;
                 const user = await UserRepository.updateUser(u);
                 if (user){
+                    console.log(user.avatar);
                     return res.json(user);
                 } else {
                     return res.json(null);
