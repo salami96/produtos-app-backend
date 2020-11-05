@@ -1,6 +1,8 @@
 import { Address, Category, Store } from "../entities";
 import { CategoryModel, PaymentModel, StoreModel } from "../schemas";
 
+const populated = 'categories payments';
+
 export class StoreRepository {
     static async saveStore(s: Store): Promise<Store> {
         const stores = await StoreModel.find().exec();
@@ -12,7 +14,7 @@ export class StoreRepository {
         }
     }
     static async updateStore(s: Store): Promise<Store> {
-        return await StoreModel.findOneAndUpdate({ $and: [{ code: s.code }, { ownerUid: s.ownerUid }] }, s, { new: true }).exec();
+        return await StoreModel.findOneAndUpdate({ $and: [{ code: s.code }, { ownerUid: s.ownerUid }] }, s, { new: true }).populate(populated).exec();
     }
     static async addAddress2Store(a: Address, code: string, ownerUid: string): Promise<Store> {
         const store = await StoreModel.findOne({ $and: [{ code }, { ownerUid }] }).exec();
@@ -38,7 +40,7 @@ export class StoreRepository {
         return null;
     }
     static async getStores(): Promise<Store[]> {
-        const store = await StoreModel.find().populate('categories payments').exec();
+        const store = await StoreModel.find().populate(populated).exec();
         if (store) store.forEach(s => s.ownerUid = null);
         return store;
     }
@@ -47,9 +49,13 @@ export class StoreRepository {
         return catgoeries;
     }
     static async getStore(code: string): Promise<Store> {
-        const store = await StoreModel.findOne({ code }).populate('categories payments').exec();
-        if (store) store.ownerUid = null;
-        return store;
+        const store = await StoreModel.findOne({ code }).populate(populated).exec();
+        if (store) {
+            store.ownerUid = null
+            return store;
+        } else {
+            return await StoreModel.findOne({ code: 'exemplo' }).populate(populated).exec();
+        }
     }
     static async addData2Store(s: string, uid: string, name: string, type: string): Promise<Store> {
         const doc = await StoreModel.findOne({ $and: [{ code: s },{ ownerUid: uid }]}).exec();
