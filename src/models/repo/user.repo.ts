@@ -12,11 +12,7 @@ export class UserRepository {
         }
     }
     static async updateUser(u: User): Promise<User> {
-        let resp;
-        UserModel.findOneAndUpdate({ uid: u.uid }, u).exec(response => {
-            resp = response;
-        });
-        return await resp;
+        return UserModel.findOneAndUpdate({ uid: u.uid }, u, { new: true }).exec();
     }
     static async addAddress2User(a: Address, uid: string): Promise<User> {
         const user = await UserModel.findOne({ uid: uid }).exec();
