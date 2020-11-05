@@ -12,8 +12,7 @@ export class StoreRepository {
         }
     }
     static async updateStore(s: Store): Promise<Store> {
-        const resp = await StoreModel.findOneAndUpdate({ $and: [{ code: s.code }, { ownerUid: s.ownerUid }] }, s).exec();
-        return await this.getStore(s.code);
+        return await StoreModel.findOneAndUpdate({ $and: [{ code: s.code }, { ownerUid: s.ownerUid }] }, s, { new: true }).exec();
     }
     static async addAddress2Store(a: Address, code: string, ownerUid: string): Promise<Store> {
         const store = await StoreModel.findOne({ $and: [{ code }, { ownerUid }] }).exec();
@@ -23,10 +22,7 @@ export class StoreRepository {
                 store.address.splice(store.address.lastIndexOf(found),1);
             }
             store.address.push(a);
-            const resp = await this.updateStore(store);
-            if (resp) {
-                return await this.getStore(code);
-            }
+            return await this.updateStore(store);
         }
         return null;
     }
@@ -37,10 +33,7 @@ export class StoreRepository {
             if (found) {
                 store.address.splice(store.address.lastIndexOf(found),1);
             }
-            const resp = await this.updateStore(store);
-            if (resp) {
-                return await this.getStore(store.code);
-            }
+            return await this.updateStore(store);
         }
         return null;
     }

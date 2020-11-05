@@ -18,8 +18,7 @@ export class ProductRepository {
     static async updateProduct(p: Product, code: string, ownerUid: string): Promise<Product> {
         const store = await StoreModel.findOne({ $and: [ { code }, { ownerUid } ] }).exec();
         if (store) {
-            const resp = await ProductModel.findOneAndUpdate({ $and: [ { cod: p.cod }, { store: store.code } ] }, p).exec();
-            return resp;
+            return await ProductModel.findOneAndUpdate({ $and: [ { cod: p.cod }, { store: store.code } ] }, p, { new: true }).exec();
         }
         return null;
     }

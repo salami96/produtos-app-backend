@@ -24,6 +24,6 @@ export class OrderRepository {
         return order;
     }
     static async updateOrder(_id: string, status: number): Promise<Order> {
-        return await OrderModel.findOneAndUpdate({ _id }, { status } ).exec();
+        return await OrderModel.findOneAndUpdate({ _id }, { status }, { new: true } ).exec();
     }
 }

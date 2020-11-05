@@ -22,10 +22,7 @@ export class UserRepository {
                 user.address.splice(user.address.lastIndexOf(found),1);
             }
             user.address.push(a);
-            const resp = await this.updateUser(user);
-            if (resp) {
-                return await this.getUser(user.uid);
-            }
+            return await this.updateUser(user);
         }
         return null;
     }
@@ -36,10 +33,7 @@ export class UserRepository {
             if (found) {
                 user.address.splice(user.address.lastIndexOf(found),1);
             }
-            const resp = await this.updateUser(user);
-            if (resp) {
-                return await this.getUser(user.uid);
-            }
+            return await this.updateUser(user);
         }
         return null;
     }
@@ -47,16 +41,4 @@ export class UserRepository {
         const user = await UserModel.findOne({ uid: uid }).exec();
         return user;
     }
-/*     static async allRecords(): Promise<User[]> {
-        const users: User[] = await UserModel.find().lean().sort({ 'data': -1 }).exec();
-        return users
-    }
-    static async limparRegistros(): Promise<boolean> {
-        let resultado = await UserModel.deleteMany({});
-        return resultado;
-    }
-    static async limparRegistro(id: string): Promise<boolean> {
-        let resp = await UserModel.findOneAndRemove({ '_id': id }).lean().exec();
-        return resp;
-    } */
 }
