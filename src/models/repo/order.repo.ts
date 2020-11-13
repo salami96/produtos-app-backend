@@ -20,7 +20,7 @@ export class OrderRepository {
         return resp;
     }
     static async getOrder(_id: string): Promise<Order> {
-        const order = await OrderModel.findOne({ _id }).populate('store payment user').exec();
+        const order = await OrderModel.findOne({ _id }).populate('store payment client').exec();
         return order;
     }
     static async updateOrder(_id: string, status: number): Promise<Order> {
