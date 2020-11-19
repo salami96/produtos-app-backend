@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { router } from './routes';
+const path = require('path');
 
 
 export class App {
@@ -42,7 +43,7 @@ export class App {
     }
 
     private listen(): void {
-        this.express.use(async (req, res, next) => {
+        this.express.use('/api', async (req, res, next) => {
             try {
                 if (!req.headers.authorization) {
                     res.statusCode = 403;
@@ -59,7 +60,11 @@ export class App {
                 next(error.message);
             }
         });
-        this.express.use('/', router);
+        this.express.use('/api', router);
+        this.express.use(express.static(path.resolve(__dirname, '..') + '/public/app'));
+        this.express.get('/*', function(req, res){
+            res.sendFile(path.resolve(__dirname, '..') + '/public/app/');
+        });
         this.express.listen(this.port, () => {
             console.log('Server running in port: ' + this.port);
         })
