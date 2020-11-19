@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { router } from './routes';
-const path = require('path');
+import path from 'path';
 
 
 export class App {
@@ -62,8 +62,11 @@ export class App {
         });
         this.express.use('/api', router);
         this.express.use(express.static(path.resolve(__dirname, '..') + '/public/app'));
+        this.express.get('/gerente/*', function(req, res){
+            res.sendFile(path.resolve(__dirname, '..') + '/public/app/index.html');
+        });
         this.express.get('/*', function(req, res){
-            res.sendFile(path.resolve(__dirname, '..') + '/public/app/');
+            res.sendFile(path.resolve(__dirname, '..') + '/public/app/home.html');
         });
         this.express.listen(this.port, () => {
             console.log('Server running in port: ' + this.port);
