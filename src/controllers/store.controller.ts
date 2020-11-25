@@ -98,6 +98,19 @@ export class StoreController {
             next(erro);
         }
     }
+    static async getStoresByOwner(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        try {
+            const { id } = req.params;
+            const stores = await StoreRepository.getStoresByOwner(id);
+            if (stores){
+                return res.json(stores)
+            } else {
+                return res.json(null);
+            }
+        } catch (erro) {
+            next(erro);
+        }
+    }
     static async getStores(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
             const stores = await StoreRepository.getStores();

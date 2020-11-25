@@ -44,6 +44,11 @@ export class StoreRepository {
         if (store) store.forEach(s => s.ownerUid = null);
         return store;
     }
+    static async getStoresByOwner(ownerUid: string): Promise<Store[]> {
+        const store = await StoreModel.find({ ownerUid }).populate(populated).exec();
+        if (store) store.forEach(s => s.ownerUid = null);
+        return store;
+    }
     static async getCategories(): Promise<Category[]> {
         const catgoeries = await CategoryModel.find().exec();
         return catgoeries;
