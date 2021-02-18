@@ -11,8 +11,8 @@ export class OrderRepository {
         }
         return await OrderModel.create(o);
     }
-    static async getOrders(store: string, status: number): Promise<Order[]> {
-        const resp = await OrderModel.find({ $and: [{ store }, { status } ] }).populate('client payment').exec();
+    static async getOrders(store: string): Promise<Order[]> {
+        const resp = await OrderModel.find({ store }).populate('client payment').exec();
         return resp;
     }
     static async getOrdersByUser(store: string, client: string): Promise<Order[]> {

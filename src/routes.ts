@@ -38,7 +38,7 @@ router.put('/product', ProductController.updateProduct);
 router.delete('/product/:store/:uid/:cod', ProductController.deleteProduct);
 
 // Order Routes
-router.get('/orders/:store/:status', OrderController.getOrders);
+router.get('/orders/:store', OrderController.getOrders);
 router.get('/orders-by-client/:store/:client', OrderController.getOrdersByClient);
 router.get('/order/:cod', OrderController.getOrder);
 router.post('/order', OrderController.saveNewOrder);

@@ -44,8 +44,8 @@ export class OrderController {
     }
     static async getOrders(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const { store, status } = req.params;
-            const orders = await OrderRepository.getOrders(store, Number.parseInt(status));
+            const { store } = req.params;
+            const orders = await OrderRepository.getOrders(store);
             if (orders){
                 return res.json(orders)
             } else {
