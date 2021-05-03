@@ -1,0 +1,5 @@
+const secret = '';
+constmongoUrl = '';
+const port = 0;
+
+export { secret, mongoUrl, port };

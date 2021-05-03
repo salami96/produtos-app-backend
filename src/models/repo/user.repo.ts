@@ -38,7 +38,7 @@ export class UserRepository {
         return null;
     }
     static async getUser(uid: string): Promise<User> {
-        const user = await UserModel.findOne({ uid: uid }).exec();
+        const user = await UserModel.findOne({ uid: uid }).populate('address').exec();
         return user;
     }
 }

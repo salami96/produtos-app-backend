@@ -12,15 +12,15 @@ export class OrderRepository {
         return await OrderModel.create(o);
     }
     static async getOrders(store: string): Promise<Order[]> {
-        const resp = await OrderModel.find({ store }).populate('client payment').exec();
+        const resp = await OrderModel.find({ store }).populate('client payment address').exec();
         return resp;
     }
     static async getOrdersByUser(store: string, client: string): Promise<Order[]> {
-        const resp = await OrderModel.find({ $and: [{ store }, { client }] }).populate('store payment').exec();
+        const resp = await OrderModel.find({ $and: [{ store }, { client }] }).populate('store payment address').exec();
         return resp;
     }
     static async getOrder(_id: string): Promise<Order> {
-        const order = await OrderModel.findOne({ _id }).populate('store payment client').exec();
+        const order = await OrderModel.findOne({ _id }).populate('store payment client address').exec();
         return order;
     }
     static async updateOrder(_id: string, status: number): Promise<Order> {

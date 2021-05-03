@@ -1,7 +1,7 @@
 import { Address, Category, Store } from "../entities";
 import { CategoryModel, PaymentModel, StoreModel } from "../schemas";
 
-const populated = 'categories payments';
+const populated = 'categories payments address';
 
 export class StoreRepository {
     static async saveStore(s: Store): Promise<Store> {

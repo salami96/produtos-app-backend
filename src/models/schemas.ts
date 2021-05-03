@@ -1,5 +1,5 @@
 import { Document, model, Schema } from "mongoose";
-import { Category, Payment, Store, User, Product, Order, OrderItem } from "./entities";
+import { Category, Payment, Store, User, Product, Order, OrderItem, Address } from "./entities";
 
 
 interface UserDocument extends User, Document {}
@@ -8,17 +8,7 @@ export const UserModel = model<UserDocument>('User', new Schema({
     name: { type: String },
     phone: { type: String },
     email: { type: String },
-    address: [{
-        name: { type: String },
-        street: { type: String },
-        number: { type: String },
-        district: { type: String },
-        city: { type: String },
-        state: { type: String },
-        zipCode: { type: String },
-        reference: { type: String },
-        complement: { type: String },
-    }],
+    address: [{ type: Schema.Types.ObjectId, ref: 'Address' }],
     avatar: { type: String },
 }), 'users');
 
@@ -35,17 +25,7 @@ export const StoreModel = model<StoreDocument>('Store', new Schema({
     fb: { type: String },
     insta: { type: String },
     email: { type: String },
-    address: [{
-        name: { type: String },
-        street: { type: String },
-        number: { type: String },
-        district: { type: String },
-        city: { type: String },
-        state: { type: String },
-        zipCode: { type: String },
-        reference: { type: String },
-        complement: { type: String },
-    }],
+    address: [{ type: Schema.Types.ObjectId, ref: 'Address' }],
     map: { type: String },
     directions: { type: String },
     payments: [{ type: Schema.Types.ObjectId, ref: 'Payment' }],
@@ -91,10 +71,18 @@ export const ProductModel = model<ProductDocument>('Product', new Schema({
 }), 'products');
 
 
-interface OrderItemDocument extends OrderItem, Document {}
-export const OrderItemModel = model<OrderItemDocument>('OrderItem', new Schema({
-
-}), 'orderItems');
+interface AddressDocument extends Address, Document {}
+export const AddressModel = model<AddressDocument>('Address', new Schema({
+    name: { type: String },
+    street: { type: String },
+    number: { type: String },
+    district: { type: String },
+    city: { type: String },
+    state: { type: String },
+    zipCode: { type: String },
+    reference: { type: String },
+    complement: { type: String },
+}), 'address');
 
 
 interface OrderDocument extends Order, Document {}
@@ -120,17 +108,7 @@ export const OrderModel = model<OrderDocument>('Order', new Schema({
     date: { type: Date },
     payment: { type: Schema.Types.ObjectId, ref: 'Payment' },
     pickup: { type: Boolean },
-    address: {
-        name: { type: String },
-        street: { type: String },
-        number: { type: String },
-        district: { type: String },
-        city: { type: String },
-        state: { type: String },
-        zipCode: { type: String },
-        reference: { type: String },
-        complement: { type: String },
-    },
+    address: { type: Schema.Types.ObjectId, ref: 'Address' },
     status: { type: Number },
     total: { type: Number },
 }), 'orders');
