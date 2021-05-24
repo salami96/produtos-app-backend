@@ -48,7 +48,7 @@ export interface Order {
     products: OrderItem[];
     client: string;
     store: string;
-    date: Date;
+    date: Date[];
     payment: Payment;
     pickup: boolean;
     address: Address;

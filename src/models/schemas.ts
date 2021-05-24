@@ -105,7 +105,7 @@ export const OrderModel = model<OrderDocument>('Order', new Schema({
     }],
     client: { type: Schema.Types.ObjectId, ref: 'User' },
     store: { type: Schema.Types.ObjectId, ref: 'Store' },
-    date: { type: Date },
+    date: [{ type: Date }],
     payment: { type: Schema.Types.ObjectId, ref: 'Payment' },
     pickup: { type: Boolean },
     address: { type: Schema.Types.ObjectId, ref: 'Address' },

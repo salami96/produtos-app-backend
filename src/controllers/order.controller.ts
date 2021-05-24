@@ -6,6 +6,12 @@ export class OrderController {
     static async saveNewOrder(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
             const o: Order = req.body;
+            o.date[0] = new Date();
+            o.date[1] = undefined;
+            o.date[2] = undefined;
+            o.date[3] = undefined;
+            o.date[4] = undefined;
+            o.date[5] = undefined;
             const order = await OrderRepository.saveOrder(o);
             if (order){
                 return res.json(order);
