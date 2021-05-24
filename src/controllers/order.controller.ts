@@ -5,7 +5,7 @@ import { OrderRepository } from '../models/repo/order.repo';
 export class OrderController {
     static async saveNewOrder(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const o: Order = req.body;
+            let o: Order = req.body;
             o.date[0] = new Date();
             o.date[1] = undefined;
             o.date[2] = undefined;
