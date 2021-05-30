@@ -1,4 +1,4 @@
-import { Address, Category, Store } from "../entities";
+import { Address, Category, Payment, Store } from "../entities";
 import { CategoryModel, PaymentModel, StoreModel } from "../schemas";
 
 const populated = 'categories payments address';
@@ -43,6 +43,10 @@ export class StoreRepository {
         const store = await StoreModel.find().populate(populated).exec();
         if (store) store.forEach(s => s.ownerUid = null);
         return store;
+    }
+    static async getPayments(): Promise<Payment[]> {
+        const resp = await PaymentModel.find().exec();
+        return resp;
     }
     static async getStoresByOwner(ownerUid: string): Promise<Store[]> {
         const store = await StoreModel.find({ ownerUid }).populate(populated).exec();

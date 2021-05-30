@@ -89,8 +89,19 @@ export class StoreController {
             const { id } = req.params;
             const store = await StoreRepository.getStore(id);
             if (store){
-                console.log(store.title);
                 return res.json(store)
+            } else {
+                return res.json(null);
+            }
+        } catch (erro) {
+            next(erro);
+        }
+    }
+    static async getPayments(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        try {
+            const payments = await StoreRepository.getPayments();
+            if (payments){
+                return res.json(payments)
             } else {
                 return res.json(null);
             }
