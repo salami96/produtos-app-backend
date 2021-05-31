@@ -44,12 +44,10 @@ export class StoreRepository {
         if (store) store.forEach(s => s.ownerUid = null);
         return store;
     }
-    static async getProperties(type: string): Promise<Payment[] | Category[]> {
-        let resp;
-        if (type == 'payment') {
-            resp = await PaymentModel.find().exec();
-        } else if (type == 'category') {
-            resp = await CategoryModel.find().exec();
+    static async getProperties(): Promise<{ p: Payment[] ; c: Category[] }> {
+        let resp = {
+            p: await PaymentModel.find().exec(),
+            c: await CategoryModel.find().exec()
         }
         return resp;
     }

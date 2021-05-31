@@ -99,10 +99,9 @@ export class StoreController {
     }
     static async getProperties(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const { type } = req.params;
-            const property = await StoreRepository.getProperties(type);
-            if (property){
-                return res.json(property)
+            const properties = await StoreRepository.getProperties();
+            if (properties){
+                return res.json(properties)
             } else {
                 return res.json(null);
             }
