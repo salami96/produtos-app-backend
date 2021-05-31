@@ -97,11 +97,12 @@ export class StoreController {
             next(erro);
         }
     }
-    static async getPayments(req: Request, res: Response, next: NextFunction): Promise<Response> {
+    static async getProperties(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const payments = await StoreRepository.getPayments();
-            if (payments){
-                return res.json(payments)
+            const { type } = req.params;
+            const property = await StoreRepository.getProperties(type);
+            if (property){
+                return res.json(property)
             } else {
                 return res.json(null);
             }
@@ -127,18 +128,6 @@ export class StoreController {
             const stores = await StoreRepository.getStores();
             if (stores){
                 return res.json(stores)
-            } else {
-                return res.json(null);
-            }
-        } catch (erro) {
-            next(erro);
-        }
-    }
-    static async getCategories(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        try {
-            const categories = await StoreRepository.getCategories();
-            if (categories){
-                return res.json(categories)
             } else {
                 return res.json(null);
             }

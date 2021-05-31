@@ -20,7 +20,7 @@ router.delete('/address/:uid/:name', UserController.rmAddress);
 
 // Store Routes
 router.get('/stores', StoreController.getStores);
-router.get('/payments', StoreController.getPayments);
+router.get('/payments/:type', StoreController.getProperties);
 router.get('/stores-by-owner/:id', StoreController.getStoresByOwner);
 router.get('/categories', StoreController.getCategories);
 router.get('/store/:id', StoreController.getStore);

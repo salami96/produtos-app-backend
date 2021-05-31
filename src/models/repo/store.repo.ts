@@ -44,18 +44,19 @@ export class StoreRepository {
         if (store) store.forEach(s => s.ownerUid = null);
         return store;
     }
-    static async getPayments(): Promise<Payment[]> {
-        const resp = await PaymentModel.find().exec();
+    static async getProperties(type: string): Promise<Payment[] | Category[]> {
+        let resp;
+        if (type == 'payment') {
+            resp = await PaymentModel.find().exec();
+        } else if (type == 'category') {
+            resp = await CategoryModel.find().exec();
+        }
         return resp;
     }
     static async getStoresByOwner(ownerUid: string): Promise<Store[]> {
         const store = await StoreModel.find({ ownerUid }).populate(populated).exec();
         if (store) store.forEach(s => s.ownerUid = null);
         return store;
-    }
-    static async getCategories(): Promise<Category[]> {
-        const catgoeries = await CategoryModel.find().exec();
-        return catgoeries;
     }
     static async getStore(code: string): Promise<Store> {
         const store = await StoreModel.findOne({ code }).populate(populated).exec();
