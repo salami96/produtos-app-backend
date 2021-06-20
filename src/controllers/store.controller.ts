@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { Address, Category, Store } from '../models/entities';
 import { StoreRepository } from '../models/repo/store.repo';
 
+import fs from 'fs';
+const cloudinary = require('cloudinary');
+
 export class StoreController {
     static async saveNewStore(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
@@ -38,6 +41,19 @@ export class StoreController {
             } else {
                 return res.json(null);
             }
+        } catch (erro) {
+            next(erro);
+        }
+    }
+    static async updateStoreLogo(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        try {
+            let { base64, code } = req.body;
+            return cloudinary.v2.uploader.upload(base64, { public_id: 'logo-' + code }, async (err, result) => {
+                if(err) {
+                    return res.json(null);
+                }
+                res.send = result.secure_url;
+            });
         } catch (erro) {
             next(erro);
         }
