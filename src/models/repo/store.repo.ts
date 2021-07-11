@@ -1,5 +1,6 @@
+import { Document } from "mongoose";
 import { Address, Category, Payment, Store } from "../entities";
-import { CategoryModel, PaymentModel, StoreModel } from "../schemas";
+import { AddressModel, CategoryModel, PaymentModel, StoreModel } from "../schemas";
 
 const populated = 'categories payments address';
 
@@ -16,17 +17,8 @@ export class StoreRepository {
     static async updateStore(s: Store): Promise<Store> {
         return await StoreModel.findOneAndUpdate({ $and: [{ code: s.code }, { ownerUid: s.ownerUid }] }, s, { new: true }).populate(populated).exec();
     }
-    static async addAddress2Store(a: Address, code: string, ownerUid: string): Promise<Store> {
-        const store = await StoreModel.findOne({ $and: [{ code }, { ownerUid }] }).exec();
-        if (store) {
-            const found = store.address.find(ad => ad.name === a.name);
-            if (found) {
-                store.address.splice(store.address.lastIndexOf(found),1);
-            }
-            store.address.push(a);
-            return await this.updateStore(store);
-        }
-        return null;
+    static async addAddress(a: Address): Promise<Address> {
+        return await AddressModel.create(a);
     }
     static async rmAddress(name: string, code: string, uid: string): Promise<Store> {
         const store = await StoreModel.findOne({ $and: [{ code }, { ownerUid: uid }] }).exec();
@@ -38,6 +30,10 @@ export class StoreRepository {
             return await this.updateStore(store);
         }
         return null;
+    }
+    static async getStoreCodes(): Promise<string[]> {
+        let stores = await StoreModel.find().exec();
+        return stores.map(s => s.code);
     }
     static async getStores(): Promise<Store[]> {
         const store = await StoreModel.find().populate(populated).exec();

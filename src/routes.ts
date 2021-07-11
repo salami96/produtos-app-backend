@@ -20,6 +20,7 @@ router.delete('/address/:uid/:name', UserController.rmAddress);
 
 // Store Routes
 router.get('/stores', StoreController.getStores);
+router.get('/available-codes', StoreController.getStoreCodes);
 router.get('/properties', StoreController.getProperties);
 router.get('/stores-by-owner/:id', StoreController.getStoresByOwner);
 router.get('/store/:id', StoreController.getStore);
@@ -28,7 +29,7 @@ router.post('/store', StoreController.saveNewStore);
 router.post('/data-to-store', StoreController.addData2Store);
 router.put('/store', StoreController.updateStore);
 router.put('/store-logo', StoreController.updateStoreLogo);
-router.put('/store/address', StoreController.address2Store);
+router.post('/store/address', StoreController.addAddress);
 router.delete('/store/address/:id/:uid/:name', StoreController.rmAddress);
 
 // Product Routes

@@ -60,8 +60,13 @@ export class StoreController {
     }
     static async updateStore(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const s = req.body;
+            let s = req.body;
+            // console.log(s);
+            // removePopulatedFields(s)
+            // return res.json(null);
+            // console.log(s);
             const store = await StoreRepository.updateStore(s);
+            // console.log(store);
             if (store){
                 return res.json(store);
             } else {
@@ -71,14 +76,12 @@ export class StoreController {
             next(erro);
         }
     }
-    static async address2Store(req: Request, res: Response, next: NextFunction): Promise<Response> {
+    static async addAddress(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const a: Address = req.body.address;
-            const uid: string = req.body.uid;
-            const code: string = req.body.code;
-            const store = await StoreRepository.addAddress2Store(a, code, uid);
-            if (store) {
-                return res.json(store);
+            const { address } = req.body;
+            const resp = await StoreRepository.addAddress(address);
+            if (resp) {
+                return res.json(resp);
             } else {
                 return res.json(null);
             }
@@ -150,8 +153,21 @@ export class StoreController {
             next(erro);
         }
     }
+    static async getStoreCodes(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        try {
+            const codes = await StoreRepository.getStoreCodes();
+            if (codes){
+                return res.json(codes)
+            } else {
+                return res.json(null);
+            }
+        } catch (erro) {
+            next(erro);
+        }
+    }
 }
 import { PaymentModel } from '../models/schemas'
+import { removePopulatedFields } from './utils';
 async function createPgto() {
 
     // PaymentModel.create({
