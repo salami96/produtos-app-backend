@@ -33,7 +33,7 @@ export class StoreRepository {
     }
     static async getStoreCodes(): Promise<string[]> {
         let stores = await StoreModel.find().exec();
-        return stores.map(s => s.code);
+        return [...stores.map(s => s.code), 'www', 'admin' ];
     }
     static async getStores(): Promise<Store[]> {
         const store = await StoreModel.find().populate(populated).exec();
