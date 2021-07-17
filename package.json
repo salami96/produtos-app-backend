@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/index.ts",
+    "deploy-admin": "git add public/. && git commit -m \"deploy admin\" && git push",
     "build": "sucrase ./src -d ./dist --transforms typescript,imports",
     "serve": "node dist/index.js",
     "postinstall": "npm run build"
