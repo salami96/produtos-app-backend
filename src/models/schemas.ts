@@ -67,7 +67,8 @@ export const ProductModel = model<ProductDocument>('Product', new Schema({
         name: { type: String },
         value: { type: Number }
     }],
-    optional: [{ type: String }]
+    optional: [{ type: String }],
+    active: { type: Boolean, default: true }
 }), 'products');
 
 
