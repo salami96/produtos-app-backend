@@ -45,15 +45,16 @@ export class StoreController {
             next(erro);
         }
     }
-    static async updateStoreLogo(req: Request, res: Response, next: NextFunction): Promise<Response> {
+    static async updateStoreLogo(req: Request, res: Response, next: NextFunction) {
         try {
-            let { base64, code } = req.body;
-            return cloudinary.v2.uploader.upload(base64, { public_id: 'logo-' + code }, async (err, result) => {
-                if(err) {
-                    return res.json(null);
+            const stream = cloudinary.uploader.upload_stream(async function(result) {
+                if (result) {
+                    return res.send(result.secure_url);
+                } else {
+                    return res.send('');
                 }
-                res.send = result.secure_url;
-            });
+            }, { public_id: 'logo-' + req.body.code } );
+            fs.createReadStream(req.file.path).pipe(stream);
         } catch (erro) {
             next(erro);
         }

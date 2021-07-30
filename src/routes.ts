@@ -28,7 +28,8 @@ router.post('/category', StoreController.saveNewCategory);
 router.post('/store', StoreController.saveNewStore);
 router.post('/data-to-store', StoreController.addData2Store);
 router.put('/store', StoreController.updateStore);
-router.put('/store-logo', StoreController.updateStoreLogo);
+router.put('/store-logo', upload.single('logo'), StoreController.updateStoreLogo);
+// router.put('/store-logo', StoreController.updateStoreLogo);
 router.post('/store/address', StoreController.addAddress);
 router.delete('/store/address/:id/:uid/:name', StoreController.rmAddress);
 
