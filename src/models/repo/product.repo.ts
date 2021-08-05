@@ -31,11 +31,9 @@ export class ProductRepository {
         return null;
     }
     static async getProduct(cod: string, store: string): Promise<Product> {
-        const product = await ProductModel.findOne({ $and: [ { cod }, { store } ] }).exec();
-        return product;
+        return await ProductModel.findOne({ $and: [ { cod }, { store } ] }).populate('categories').exec();
     }
     static async getProducts(store: string): Promise<Product[]> {
-        const product = await ProductModel.find({ store }).exec();
-        return product;
+        return await ProductModel.find({ store }).populate('categories').exec();
     }
 }

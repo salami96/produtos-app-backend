@@ -55,7 +55,7 @@ export class StoreRepository {
     static async getStore(code: string): Promise<Store> {
         const store = await StoreModel.findOne({ code }).populate(populated).exec();
         if (store) {
-            store.ownerUid = null
+            store.ownerUid = null;
             return store;
         } else {
             return await StoreModel.findOne({ code: 'exemplo' }).populate(populated).exec();

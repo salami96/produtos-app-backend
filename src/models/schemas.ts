@@ -55,7 +55,7 @@ interface ProductDocument extends Product, Document {}
 export const ProductModel = model<ProductDocument>('Product', new Schema({
     cod: { type: String },
     store: { type: String },
-    category: { type: String },
+    categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
     name: { type: String },
     imgs: [{ type: String }],
     sizes: [{
