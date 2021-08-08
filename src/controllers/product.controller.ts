@@ -19,11 +19,11 @@ export class ProductController {
     }
     static async updateProduct(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const { uid } = req.body;
-            const p: Product = req.body;
-            const product = await ProductRepository.updateProduct(p, p.store, uid);
-            if (product){
-                return res.json(product);
+            const { uid, product } = req.body;
+            const result = await ProductRepository.updateProduct(product, product.store, uid);
+            console.log(result)
+            if (result){
+                return res.json(result);
             } else {
                 return res.json(null);
             }
