@@ -55,14 +55,11 @@ export class StoreController {
     }
     static async updateStoreLogo(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(req.file.path);
-            console.log(req.body.code);
             const stream = cloudinary.uploader.upload_stream(async function(result) {
-                console.log(result);
                 if (result) {
-                    return res.send(result.secure_url);
+                    return res.json({ status: true, url: result.secure_url });
                 } else {
-                    return res.send('');
+                    return res.send({ status: false });
                 }
             }, { public_id: 'logo-' + req.body.code } );
             fs.createReadStream(req.file.path).pipe(stream);
