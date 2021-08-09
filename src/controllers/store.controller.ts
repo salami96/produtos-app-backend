@@ -9,6 +9,14 @@ export class StoreController {
     static async saveNewStore(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
             const s: Store = req.body;
+            let ad = [
+                s.address[0].street,
+                s.address[0].number,
+                s.address[0].city,
+                s.address[0].state,
+                s.address[0].zipCode,
+            ];
+            s.directions = `https://google.com/maps/dir//${ad.join(',')}`
             const store = await StoreRepository.saveStore(s);
             if (store){
                 return res.json(store);
@@ -47,6 +55,7 @@ export class StoreController {
     }
     static async updateStoreLogo(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log(req.body)
             const stream = cloudinary.uploader.upload_stream(async function(result) {
                 if (result) {
                     return res.send(result.secure_url);
@@ -61,13 +70,8 @@ export class StoreController {
     }
     static async updateStore(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            let s = req.body;
-            // console.log(s);
-            // removePopulatedFields(s)
-            // return res.json(null);
-            // console.log(s);
+            let s: Store = req.body;
             const store = await StoreRepository.updateStore(s);
-            // console.log(store);
             if (store){
                 return res.json(store);
             } else {

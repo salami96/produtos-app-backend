@@ -1,4 +1,3 @@
-import { Document } from "mongoose";
 import { Address, Category, Payment, Store } from "../entities";
 import { AddressModel, CategoryModel, PaymentModel, StoreModel } from "../schemas";
 
