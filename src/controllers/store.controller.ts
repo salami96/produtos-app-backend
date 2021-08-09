@@ -55,8 +55,10 @@ export class StoreController {
     }
     static async updateStoreLogo(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(req.body)
+            console.log(req.file.path);
+            console.log(req.body.code);
             const stream = cloudinary.uploader.upload_stream(async function(result) {
+                console.log(result);
                 if (result) {
                     return res.send(result.secure_url);
                 } else {
