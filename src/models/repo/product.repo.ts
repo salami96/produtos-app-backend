@@ -8,7 +8,7 @@ export class ProductRepository {
             const products = await ProductModel.find({ store: store.code }).exec();
             const found = products.find(product => product.cod === p.cod);
             if (found) {
-                return found;
+                return null;
             } else {
                 return await ProductModel.create(p);
             }
@@ -33,7 +33,8 @@ export class ProductRepository {
     static async getProduct(cod: string, store: string): Promise<Product> {
         return await ProductModel.findOne({ $and: [ { cod }, { store } ] }).populate('categories').exec();
     }
-    static async getProducts(store: string): Promise<Product[]> {
-        return await ProductModel.find({ store }).populate('categories').exec();
+    static async getProducts(store: string, all: boolean): Promise<Product[]> {
+        if (all) return await ProductModel.find({ store }).populate('categories').exec();
+        return await ProductModel.find({ store, active: true }).populate('categories').exec();
     }
 }

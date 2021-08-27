@@ -36,7 +36,8 @@ router.delete('/store/address/:id/:uid/:name', StoreController.rmAddress);
 // Product Routes
 router.get('/products/:store', ProductController.getProducts);
 router.get('/product/:store/:cod', ProductController.getProduct);
-router.post('/product', ProductController.saveNewProduct);
+router.post('/product', upload.array('productImages'), ProductController.saveNewProduct);
+router.post('/product-images', upload.array('productImages'), ProductController.productImages);
 router.put('/product', ProductController.updateProduct);
 router.delete('/product/:store/:uid/:cod', ProductController.deleteProduct);
 
