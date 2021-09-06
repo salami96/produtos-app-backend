@@ -1,5 +1,6 @@
 import { Address, User } from "../entities";
 import { UserModel } from "../schemas";
+import { StoreRepository } from "./store.repo";
 
 export class UserRepository {
     static async saveUser(u: User): Promise<User> {
@@ -21,7 +22,7 @@ export class UserRepository {
             if (found) {
                 user.address.splice(user.address.lastIndexOf(found),1);
             }
-            user.address.push(a);
+            user.address.push(await StoreRepository.addAddress(a));
             return await this.updateUser(user);
         }
         return null;

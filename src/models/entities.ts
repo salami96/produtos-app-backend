@@ -81,6 +81,7 @@ export interface User {
     pushID: string;
 }
 export interface Address {
+    _id?: string;
     name: string;
     street: string;
     number: string;
