@@ -1,6 +1,6 @@
 import { Address, User } from "../entities";
 import { UserModel } from "../schemas";
-import { StoreRepository } from "./store.repo";
+import { AddressRepository } from "./address.repo";
 
 export class UserRepository {
     static async saveUser(u: User): Promise<User> {
@@ -17,12 +17,13 @@ export class UserRepository {
     }
     static async addAddress2User(a: Address, uid: string): Promise<User> {
         const user = await UserModel.findOne({ uid: uid }).exec();
+        const address = await AddressRepository.addAddress(a);
         if (user) {
             const found = user.address.find(ad => ad.name === a.name);
             if (found) {
-                user.address.splice(user.address.lastIndexOf(found),1);
+                AddressRepository.rmAddress( user.address.splice(user.address.lastIndexOf(found),1)[0] );
             }
-            user.address.push(await StoreRepository.addAddress(a));
+            user.address.push(address);
             return await this.updateUser(user);
         }
         return null;
