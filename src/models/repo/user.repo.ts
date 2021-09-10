@@ -13,13 +13,13 @@ export class UserRepository {
         }
     }
     static async updateUser(u: User): Promise<User> {
-        return UserModel.findOneAndUpdate({ uid: u.uid }, u, { new: true }).exec();
+        return UserModel.findOneAndUpdate({ uid: u.uid }, u, { new: true }).populate('address').exec();
     }
     static async addAddress2User(a: Address, uid: string): Promise<User> {
-        const user = await UserModel.findOne({ uid: uid }).exec();
+        const user = await UserModel.findOne({ uid }).populate('address').exec();
         const address = await AddressRepository.addAddress(a);
         if (user) {
-            const found = user.address.find(ad => ad.name === a.name);
+            const found = user.address.find(ad => ad.name == a.name);
             if (found) {
                 AddressRepository.rmAddress( user.address.splice(user.address.lastIndexOf(found),1)[0] );
             }
@@ -29,11 +29,12 @@ export class UserRepository {
         return null;
     }
     static async rmAddress(name: string, uid: string): Promise<User> {
-        const user = await UserModel.findOne({ uid: uid }).exec();
+        const user = await UserModel.findOne({ uid }).populate('address').exec();
+        console.log(user.name)
         if (user) {
             const found = user.address.find(ad => ad.name === name);
             if (found) {
-                user.address.splice(user.address.lastIndexOf(found),1);
+                AddressRepository.rmAddress( user.address.splice(user.address.lastIndexOf(found),1)[0] );
             }
             return await this.updateUser(user);
         }

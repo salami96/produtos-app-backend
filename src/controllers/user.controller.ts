@@ -57,9 +57,8 @@ export class UserController {
     }
     static async address2User(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const a: Address = req.body.address;
-            const uid: string = req.body.uid;
-            const user = await UserRepository.addAddress2User(a, uid);
+            const { address, uid } = req.body;
+            const user = await UserRepository.addAddress2User(address, uid);
             if (user) {
                 return res.json(user);
             } else {
@@ -74,6 +73,7 @@ export class UserController {
             const { name, uid } = req.params;
             console.log(name);
             const user = await UserRepository.rmAddress(name, uid);
+            console.log(user);
             if (user) {
                 return res.json(user);
             } else {
