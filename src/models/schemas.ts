@@ -30,7 +30,7 @@ export const StoreModel = model<StoreDocument>('Store', new Schema({
     directions: { type: String },
     payments: [{ type: Schema.Types.ObjectId, ref: 'Payment' }],
     categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
-    ship: [{
+    shippings: [{
         zipCode: { type: String },
         value: { type: Number }
     }],
