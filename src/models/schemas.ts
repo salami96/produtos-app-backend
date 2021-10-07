@@ -36,6 +36,9 @@ export const StoreModel = model<StoreDocument>('Store', new Schema({
     }],
     ownerUid: { type: String },
     color: { type: String },
+    pixQrCode: { type: String },
+    pixKey: { type: String },
+    pixKeyType: { type: String },
 }), 'stores');
 
 interface PaymentDocument extends Payment, Document {}
