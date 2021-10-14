@@ -46,6 +46,7 @@ router.get('/orders/:store', OrderController.getOrders);
 router.get('/orders-by-client/:store/:client', OrderController.getOrdersByClient);
 router.get('/order/:cod', OrderController.getOrder);
 router.post('/order', OrderController.saveNewOrder);
-router.put('/order', OrderController.updateOrder);
+router.put('/order', OrderController.updateOrderStatus);
+router.put('/order/:id', OrderController.updateOrder);
 
 export { router };

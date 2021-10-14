@@ -39,6 +39,7 @@ export const StoreModel = model<StoreDocument>('Store', new Schema({
     pixQrCode: { type: String },
     pixKey: { type: String },
     pixKeyType: { type: String },
+    cardBrands: [{ type: String }],
 }), 'stores');
 
 interface PaymentDocument extends Payment, Document {}
@@ -115,4 +116,5 @@ export const OrderModel = model<OrderDocument>('Order', new Schema({
     address: { type: Schema.Types.ObjectId, ref: 'Address' },
     status: { type: Number },
     total: { type: Number },
+    paymentDetail: { type: String },
 }), 'orders');

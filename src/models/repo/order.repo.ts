@@ -36,10 +36,13 @@ export class OrderRepository {
         const order = await OrderModel.findOne({ _id }).populate(populate).exec();
         return order;
     }
-    static async updateOrder(_id: string, status: number): Promise<Order> {
+    static async updateOrderStatus(_id: string, status: number): Promise<Order> {
         let doc = await OrderModel.findOne({ _id }).populate(populate).exec();
         doc.status = status;
         (doc.date as any).set(status, new Date().toString());
         return doc.save();
+    }
+    static async updateOrder(_id: string, order: Order): Promise<Order> {
+        return await OrderModel.findOneAndUpdate({ _id }, order).populate(populate).exec();
     }
 }

@@ -22,12 +22,26 @@ export class OrderController {
             next(erro);
         }
     }
-    static async updateOrder(req: Request, res: Response, next: NextFunction): Promise<Response> {
+    static async updateOrderStatus(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
             const { cod, status } = req.body;
-            const order = await OrderRepository.updateOrder(cod, status);
+            const order = await OrderRepository.updateOrderStatus(cod, status);
             if (order){
                 return res.json(order);
+            } else {
+                return res.json(null);
+            }
+        } catch (erro) {
+            next(erro);
+        }
+    }
+    static async updateOrder(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        try {
+            const { order } = req.body;
+            const { id } = req.params;
+            const resp = await OrderRepository.updateOrder(id, order);
+            if (resp){
+                return res.json(resp);
             } else {
                 return res.json(null);
             }
