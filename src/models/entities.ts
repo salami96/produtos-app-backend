@@ -1,4 +1,5 @@
 export interface Store {
+    _id?: string;
     code: string;
     title: string;
     logo: string;
@@ -34,6 +35,7 @@ export interface Category {
     icon: string;
 }
 export interface Product {
+    _id?: string;
     cod: string;
     store: string;
     categories: Category[];
@@ -52,10 +54,11 @@ export interface Product {
     active: boolean;
 }
 export interface Order {
+    _id?: string;
     cod: number;
     products: OrderItem[];
-    client: string;
-    store: string;
+    client: User;
+    store: Store;
     date: Date[];
     payment: Payment;
     pickup: boolean;
@@ -80,6 +83,7 @@ export interface OrderItem {
     observations: string;
 }
 export interface User {
+    _id?: string;
     uid: string;
     name: string;
     phone: string;

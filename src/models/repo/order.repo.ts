@@ -1,4 +1,4 @@
-import { Order } from "../entities";
+import { Order, Store, User } from "../entities";
 import { OrderModel } from "../schemas";
 
 const populate = [{
@@ -24,13 +24,14 @@ export class OrderRepository {
         }
         return await OrderModel.create(o);
     }
-    static async getOrders(store: string): Promise<Order[]> {
-        const resp = await OrderModel.find({ store }).populate(populate).exec();
-        return resp;
+    static async getOrders(store: Store): Promise<Order[]> {
+        // const store = await StoreModel.findById(storeId)
+        return await OrderModel.find({ store }).populate(populate).exec();
     }
-    static async getOrdersByUser(store: string, client: string): Promise<Order[]> {
-        const resp = await OrderModel.find({ $and: [{ store }, { client }] }).populate(populate).exec();
-        return resp;
+    static async getOrdersByUser(store: Store, client: User): Promise<Order[]> {
+        // const store = await StoreModel.findById(storeId);
+        // const client = await UserModel.findById(clientId);
+        return await OrderModel.find({ store, client }).populate(populate).exec();
     }
     static async getOrder(_id: string): Promise<Order> {
         const order = await OrderModel.findOne({ _id }).populate(populate).exec();

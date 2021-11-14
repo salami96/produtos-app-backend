@@ -3,10 +3,11 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { router } from './routes';
 import path from 'path';
-
+const { setupWebsocket } = require('./websocket');
 
 export class App {
     private express: express.Application;
+    private server;
     secret: string;
     mongoUrl: string;
     port: number | string;
@@ -35,7 +36,7 @@ export class App {
     }
 
     public getApp(): express.Application {
-        return this.express;
+        return this.server;
     }
 
     private middlewares(): void {
@@ -71,9 +72,11 @@ export class App {
         this.express.get('**', function(req, res){
             res.redirect('/');
         });
-        this.express.listen(this.port, () => {
+        this.server = require("http").createServer(this.express);
+        setupWebsocket(this.server);
+        this.server.listen(this.port, () => {
             console.log('Server running in port: ' + this.port);
-        })
+        });
     }
 
     private database(): void {
